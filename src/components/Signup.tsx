@@ -1,23 +1,26 @@
 import * as React from "react";
 import "../styles/login.css";
-import LoginIcon from "../assets/loginIcon.png";
-import GoogleIcon from "../assets/googleIcon.png";
+import Signup from "../assets/Signup.png";
 import userIcon from "../assets/userIcon.png";
 import passwordIcon from "../assets/passwordIcon.png";
+import emailIcon from "../assets/email.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 export default function Login1() {
 	const [email, setEmail] = useState("");
+	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 	const performLogin = async (email: string, password: string) => {
-		const http = await fetch("http://10.1.162.162:3430", {
+		const http = await fetch("http://10.1.162.162:3430/signup", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				email,
-				pwd: password,
+				nam: name,
+				email: email,
+				pwdd: password,
 			}),
 		});
 		const data = await http.json();
@@ -26,21 +29,26 @@ export default function Login1() {
 
 	return (
 		<main id="login">
-			<img src={LoginIcon} alt="Login Icon" />
-			<h1 id="motto">Write, Mention, Earn </h1>
-			<button id="googleLogin">
-				<img src={GoogleIcon} alt="Google Icon" />
-				Login with Google
-			</button>
-			<div id="OR-block">OR</div>
+			<img src={Signup} alt="Login Icon" />
+			<h1 id="motto">Be A Part Blog Earn </h1>
+			<div className="login-input-block">
+				<img src={emailIcon} alt="User Icon" />
+
+				<input
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+					className="login-input"
+					placeholder="Enter your Email"
+				/>
+			</div>
 			<div className="login-input-block">
 				<img src={userIcon} alt="User Icon" />
 				<input
 					className="login-input"
 					type="text"
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-					placeholder="Enter your email"
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+					placeholder="Enter your Name"
 				/>
 			</div>
 			<div className="login-input-block">
@@ -48,9 +56,9 @@ export default function Login1() {
 
 				<input
 					value={password}
+					type="password"
 					onChange={(e) => setPassword(e.target.value)}
 					className="login-input"
-					type="password"
 					placeholder="Enter your password"
 				/>
 			</div>
@@ -60,9 +68,10 @@ export default function Login1() {
 					performLogin(email, password);
 				}}
 			>
-				Login
+				SendOTP
 			</button>
-			<Link to="/signup">Sign Up</Link>
+			Have An Account?
+			<Link to="/">Login</Link>
 		</main>
 	);
 }
